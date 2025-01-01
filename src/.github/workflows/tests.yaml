@@ -1,0 +1,18 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  run-tests:
+    strategy:
+      # Do not fail fast, so we can see all errors from the unit/integration tests
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    name: Tests
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run cargo tests
+      run: cargo test --verbose

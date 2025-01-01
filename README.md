@@ -1,2 +1,3 @@
 # textsum
-Command Line Tool to summarise text.
+
+Command Line Tool to summarise text written in Rust.
