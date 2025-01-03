@@ -1,5 +1,49 @@
 use std::collections::HashMap;
 
+/// Find every word in the given text.
+///
+/// Also, count the number of different character types.
+///
+/// # Arguments
+///
+/// * text - A string of text.
+///
+/// # Returns
+///
+/// TupleType containing:
+/// * `words` - Every found word.
+/// * `alphabetic_count` - The number of alphabetic characters.
+/// * `numeric_count` - The number of numeric characters.
+/// * `whitespace_count` - The number of whitespace characters.
+pub fn count_characters(text: &String) -> (Vec<String>, usize, usize, usize) {
+    let mut words: Vec<String> = Vec::new();
+    let mut alphabetic_count = 0;
+    let mut numeric_count = 0;
+    let mut whitespace_count = 0;
+    let mut next_word = String::new();
+
+    for char in text.chars() {
+        if char.is_alphabetic() {
+            alphabetic_count += 1;
+            next_word.push(char);
+        } else if char.is_whitespace() {
+            whitespace_count += 1;
+            if !next_word.as_str().is_empty() {
+                words.push(next_word);
+                next_word = String::new();
+            }
+        } else if char.is_numeric() {
+            numeric_count += 1;
+            next_word.push(char);
+        }
+    }
+    if !next_word.as_str().is_empty() {
+        words.push(next_word);
+    }
+
+    return (words, alphabetic_count, numeric_count, whitespace_count);
+}
+
 /// Find the n'th most common words.
 ///
 /// If there are too many words of the same count, then they are prioritised by count
