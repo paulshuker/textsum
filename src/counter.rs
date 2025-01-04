@@ -14,12 +14,15 @@ use std::collections::HashMap;
 /// * `words` - Every found word.
 /// * `alphabetic_count` - The number of alphabetic characters.
 /// * `numeric_count` - The number of numeric characters.
+/// * `symbol_count` - The number of symbol characters.
 /// * `whitespace_count` - The number of whitespace characters.
-pub fn count_characters(text: &String) -> (Vec<String>, usize, usize, usize) {
+/// * ``
+pub fn count_characters(text: &String) -> (Vec<String>, usize, usize, usize, usize) {
     let mut words: Vec<String> = Vec::new();
     let mut alphabetic_count = 0;
     let mut numeric_count = 0;
     let mut whitespace_count = 0;
+    let mut symbol_count = 0;
     let mut next_word = String::new();
 
     for char in text.chars() {
@@ -35,13 +38,22 @@ pub fn count_characters(text: &String) -> (Vec<String>, usize, usize, usize) {
         } else if char.is_numeric() {
             numeric_count += 1;
             next_word.push(char);
+        } else {
+            symbol_count += 1;
+            next_word.push(char);
         }
     }
     if !next_word.as_str().is_empty() {
         words.push(next_word);
     }
 
-    return (words, alphabetic_count, numeric_count, whitespace_count);
+    return (
+        words,
+        alphabetic_count,
+        numeric_count,
+        symbol_count,
+        whitespace_count,
+    );
 }
 
 /// Find the n'th most common words.

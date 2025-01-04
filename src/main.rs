@@ -37,7 +37,7 @@ fn run_main_with_args(args: Vec<String>) -> io::Result<()> {
         }
     }
 
-    let (words, char_count, numeric_count, whitespace_count) =
+    let (words, char_count, numeric_count, symbol_count, whitespace_count) =
         counter::count_characters(&full_text);
 
     let word_count = words.len();
@@ -48,6 +48,7 @@ fn run_main_with_args(args: Vec<String>) -> io::Result<()> {
         &word_count,
         &char_count,
         &numeric_count,
+        &symbol_count,
         &whitespace_count,
         &common_words,
         &common_counts,
@@ -69,6 +70,20 @@ fn main() -> io::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::run_main_with_args;
+    use std::env;
+    use std::fs;
+    use std::io::{self, Write};
+    use std::path;
+
+    fn write_to_file(path: path::PathBuf, content: &str) -> io::Result<()> {
+        // Open the file in write mode, creating it if it doesn't exist
+        let mut file = fs::File::create(path)?;
+
+        // Write the content to the file
+        file.write_all(content.as_bytes())?;
+
+        Ok(())
+    }
 
     #[test]
     fn test_run_main_with_args() {
@@ -84,5 +99,17 @@ mod tests {
             vec![String::from("abc"), String::from("a b c d e f g h i j k l")];
         let result = run_main_with_args(args);
         assert!(!result.is_err(), "Unexpected result error: {:?}", result);
+
+        // Test with a temporary text file.
+        let dir = env::temp_dir();
+        let text_file_path = dir.join("textsum_example.txt");
+        let line = "a b c d d d da a a a a";
+        assert!(write_to_file(text_file_path.clone(), line).is_ok());
+        let args: Vec<String> = vec![
+            String::from(""),
+            text_file_path.into_os_string().into_string().unwrap(),
+        ];
+        let result = run_main_with_args(args);
+        assert!(result.is_ok(), "Unexpected result error: {:?}", result);
     }
 }

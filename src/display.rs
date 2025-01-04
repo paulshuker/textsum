@@ -80,6 +80,7 @@ pub fn get_display(
     word_count: &usize,
     char_count: &usize,
     numeric_count: &usize,
+    symbol_count: &usize,
     whitespace_count: &usize,
     common_words: &Vec<String>,
     common_counts: &Vec<usize>,
@@ -99,13 +100,16 @@ pub fn get_display(
     }
 
     let mut count_phrases: Vec<String> = Vec::new();
-    count_phrases.push(String::from("Word: ") + &comma_separate_number(&word_count));
+    count_phrases.push(String::from("Words: ") + &comma_separate_number(&word_count));
     count_phrases
-        .push(String::from("Character: ") + &comma_separate_number(&char_count));
+        .push(String::from("Characters: ") + &comma_separate_number(&char_count));
     count_phrases
-        .push(String::from("Digit: ") + &comma_separate_number(&numeric_count));
+        .push(String::from("Digits: ") + &comma_separate_number(&numeric_count));
     count_phrases
-        .push(String::from("Whitespace: ") + &comma_separate_number(&whitespace_count));
+        .push(String::from("Symbols: ") + &comma_separate_number(&symbol_count));
+    count_phrases.push(
+        String::from("Whitespaces: ") + &comma_separate_number(&whitespace_count),
+    );
 
     // Fill phrases with empty phrases if one vertical side is larger than the other.
     let fill_word_phrases: bool = common_word_phrases.len() < count_phrases.len();
