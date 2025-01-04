@@ -9,7 +9,8 @@ Summarise text in the command line, written in Rust.
 ### Binary
 
 Download a binary from the [releases](https://github.com/paulshuker/textsum/releases)
-page for your Operating System.
+page for your Operating System. For easy use in all terminals, place the executable
+somewhere safe and add the directory to PATH.
 
 ## Usage
 
@@ -42,6 +43,11 @@ Clone the source code and run the command inside the repository
 ```terminal
 cargo test
 ```
+
+## To-do
+
+- [ ] Common word list size option
+- [ ] Output width option
 
 ## Limitations
 
